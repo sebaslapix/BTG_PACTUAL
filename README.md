@@ -19,6 +19,14 @@ Guía detallada sobre cómo instalar y configurar el proyecto en un entorno loca
 - Tener instalado node en el sistema operativo
 - Tener instalado la ultima versión de python y pip
 
+### FrontEnd
 ```bash
-# Ejemplo de cómo instalar dependencias
+#HTTPS
+git clone https://github.com/sebaslapix/BTG_PACTUAL.git
+#SSH
+```bash
+git clone git@github.com:sebaslapix/BTG_PACTUAL.git
+
+Instalamos las dependencias
+cd fondos-BTG-Pactual
 npm install
