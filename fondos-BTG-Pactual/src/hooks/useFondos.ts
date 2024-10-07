@@ -48,8 +48,8 @@ const useFondos = () => {
         const data = await Peticion(import.meta.env.VITE_APP_API_URL + "fondos-inscrito", "POST", fondo);
         if(data.status === "success"){
             await enviarNotificacion(to, medio, fondo.nombre)
-            // await obtenerFondosInscritos()
-            // await obtenerTransacciones()
+            await obtenerFondosInscritos()
+            await obtenerTransacciones()
             showToast('success', `Fondo ${fondo.nombre} inscrito`)
         }else{
             showToast('error', `Error Agregando el fondo ${fondo.nombre}`)
