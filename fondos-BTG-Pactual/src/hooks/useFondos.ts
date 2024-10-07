@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { fondo, notificacion, transacciones } from "../types"
 import Peticion from "../helper/Peticion"
-import { Global } from "../helper/Global"
 import { useToast } from "@chakra-ui/react"
 
 const useFondos = () => {
+
+    console.log(import.meta.env.VITE_APP_API_URL)
     
     const [ fondos, setFondos ] = useState<fondo[]>([])
     const [fondosInscritos, setFondosInscritos] = useState<fondo[]>([])
@@ -22,7 +23,7 @@ const useFondos = () => {
 
     const obtenerMontoInicial = async() => {
         setCargando(true);
-        const data = await Peticion(Global.url + "monto_inicial");
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + "monto_inicial");
         setCargando(false);
         if(data.status === "success"){
             setMontoInicial(data.monto)
@@ -33,7 +34,7 @@ const useFondos = () => {
 
     const obtenerFondos = async() => {
         setCargando(true);
-        const data = await Peticion(Global.url + "fondos");
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + "fondos");
         setCargando(false);
         if(data.status === "success"){
             setFondos(data.fondos)
@@ -44,7 +45,7 @@ const useFondos = () => {
 
     const agregarNuevoFondo = async (fondo:fondo, to:string, medio: string) => {
         setCargando(true);
-        const data = await Peticion(Global.url + "fondos-inscrito", "POST", fondo);
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + "fondos-inscrito", "POST", fondo);
         if(data.status === "success"){
             await enviarNotificacion(to, medio, fondo.nombre)
             await obtenerFondosInscritos()
@@ -58,7 +59,7 @@ const useFondos = () => {
 
     const cancelarFondo = async(id: fondo['id']) => {
         setCargando(true);
-        const data = await Peticion(Global.url + `fondos-inscrito/${id}`, "DELETE");
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + `fondos-inscrito/${id}`, "DELETE");
         if(data.status === "success"){
             await obtenerFondosInscritos()
             await obtenerTransacciones()
@@ -81,7 +82,7 @@ const useFondos = () => {
             to,
             mensaje: `Se ha inscrito al fondo ${nombreFondo}`
         }
-        const data = await Peticion(Global.url + ruta, "POST", notificacion);
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + ruta, "POST", notificacion);
         if(data.status === "success"){
             showToast('success', 'Notificación enviada')
         }else{
@@ -91,7 +92,7 @@ const useFondos = () => {
 
     const obtenerFondosInscritos = async () => {
         setCargando(true);
-        const data = await Peticion(Global.url + "fondos-inscritos");
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + "fondos-inscritos");
         setCargando(false);
         if(data.status === "success"){
             setFondosInscritos(data.fondos)
@@ -102,7 +103,7 @@ const useFondos = () => {
 
     const obtenerTransacciones = async () => {
         setCargando(true);
-        const data = await Peticion(Global.url + "transacciones");
+        const data = await Peticion(import.meta.env.VITE_APP_API_URL + "transacciones");
         setCargando(false);
         if(data.status === "success"){
             setTransacciones(data.fondos)
